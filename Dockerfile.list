@@ -1,0 +1,10 @@
+FROM quay.io/centos/centos:stream10
+
+RUN dnf -y install jq podman && dnf clean all
+RUN curl -sL https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable/openshift-client-linux.tar.gz \
+    | tar xvzf - -C /usr/local/bin && \
+    chmod +x /usr/local/bin/oc
+
+COPY /scripts/list.sh /list.sh
+
+ENTRYPOINT ["/list.sh"]
