@@ -1,9 +1,5 @@
 FROM quay.io/centos/centos:stream10
 
-ARG CONTAINERS_DIR=/containers
-RUN mkdir $CONTAINERS_DIR && chmod 775 $CONTAINERS_DIR
-VOLUME $CONTAINERS_DIR
-
 RUN dnf -y install jq podman && dnf clean all
 RUN curl -sL https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable/openshift-client-linux.tar.gz \
     | tar xvzf - -C /usr/local/bin && \
@@ -12,4 +8,4 @@ RUN curl -sL https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable/op
 COPY /scripts/mirror.sh /mirror.sh
 COPY /pull_secret.json /root/.docker/config.json
 
-ENTRYPOINT ["/mirror.sh", "containers"]
+ENTRYPOINT ["/mirror.sh"]
